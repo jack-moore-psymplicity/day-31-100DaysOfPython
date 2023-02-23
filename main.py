@@ -25,7 +25,7 @@ else:
 def next_card():
     global current_card, flip_timer
     window.after_cancel(flip_timer)
-    current_card = choice(to_learn)
+    current_card = choice(to_learn[0:10])
     print(current_card)
     canvas.itemconfig(card_title, text= 'Espanol', fill = 'black')
     canvas.itemconfig(card_spanish, text= current_card['Spanish'], fill = 'black')
@@ -78,10 +78,6 @@ wrong_img = PhotoImage(file="images/wrong.png")
 button_wrong = Button(image=wrong_img, bg=BACKGROUND_COLOR, highlightthickness=0, command = right_card)
 button_wrong.grid(row=1, column=1)
 
-data = data.head(50)
-to_learn = data.to_dict(orient = 'records')
-print(current_card)
-print(to_learn[0:9])
 next_card()
 
 mainloop()
