@@ -4,9 +4,17 @@ from random import shuffle, choice
 import time
 
 BACKGROUND_COLOR = "#B1DDC6"
-data = pd.read_csv('data/spanish_words.csv')
-to_learn = data.to_dict(orient = 'records')
 current_card = {}
+
+try:
+    data = pd.read_csv('data/words_to_learn.csv')
+    to_learn = data.to_dict(orient = 'records')
+except:
+    data = pd.read_csv('data/spanish_words.csv')
+    data.to_csv('data/words_to_learn.csv')
+    data = pd.read_csv('words_to_learn.csv')
+    to_learn = data.to_dict(orient = 'records')
+
 
 # ---------------------------- WORD LIST ------------------------------- #
 # ---------------------------- FUNCTIONS ------------------------------- #
@@ -18,14 +26,12 @@ def next_card():
     canvas.itemconfig(card_spanish, text= current_card['Spanish'], fill = 'black')
     flip_timer = window.after(3000, flip_card)
 
+
 def right_card():
     global current_card, to_learn
-    print(current_card)
+    to_learn.remove(current_card)
     card_idx = to_learn.index(current_card)
-    print(to_learn[card_idx])
     to_learn[card_idx] = []
-    print(to_learn[card_idx])
-
     next_card()
 
 def flip_card():
